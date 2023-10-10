@@ -9,7 +9,7 @@ import {
 
 const router = Router()
 
-router.post('/create-template', [...create_media_template_validator], Controller.create_media_template)
+router.post('/create-media-template', [...create_media_template_validator], Controller.create_media_template)
 router.get('/template/:content_sid', Controller.get_template)
 router.put('/send-to-approval', [...send_to_approval_validator], Controller.send_template_to_approval)
 router.get('/templates', Controller.get_templates)
