@@ -55,7 +55,6 @@ export async function use_template(req: Request, res: Response, next: NextFuncti
 export async function delete_template(req: Request, res: Response, next: NextFunction): Promise<void> {
   const service = new TwilioService()
   try {
-    console.log(req.query)
     const { content_sid } = req.query
     const template = await service.delete_template(content_sid!.toString())
     res.json(template)
