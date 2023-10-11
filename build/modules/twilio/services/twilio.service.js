@@ -22,6 +22,28 @@ const auth = {
     password: settings_1.settings.TWILIO_AUTH_TOKEN,
 };
 class TwilioService {
+    create_text_template(body) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            const url = `${settings_1.settings.URL_TWILIO}/Content`;
+            const template = {
+                friendly_name: body.name,
+                language: (_a = body.language) !== null && _a !== void 0 ? _a : 'es_MX',
+                variables: Object.assign({}, body.variables),
+                types: {
+                    'twilio/text': {
+                        body: body.message,
+                    },
+                },
+            };
+            const { data, status } = yield axios_1.default.post(url, template, {
+                headers: { 'Content-Type': 'application/json' },
+                auth,
+            });
+            console.log(status, data);
+            return data;
+        });
+    }
     create_media_template(body) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
@@ -34,6 +56,33 @@ class TwilioService {
                     'twilio/media': {
                         body: body.message,
                         media: [body.media],
+                    },
+                },
+            };
+            const { data, status } = yield axios_1.default.post(url, template, {
+                headers: { 'Content-Type': 'application/json' },
+                auth,
+            });
+            console.log(status, data);
+            return data;
+        });
+    }
+    create_list_picker_template(body) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            const url = `${settings_1.settings.URL_TWILIO}/Content`;
+            const template = {
+                friendly_name: body.name,
+                language: (_a = body.language) !== null && _a !== void 0 ? _a : 'es_MX',
+                variables: Object.assign({}, body.variables),
+                types: {
+                    'twilio/list-picker': {
+                        body: body.list_message,
+                        button: body.label,
+                        items: [...body.items],
+                    },
+                    'twilio/text': {
+                        body: 'Prueba de texto en lista!',
                     },
                 },
             };
@@ -58,7 +107,7 @@ class TwilioService {
             const url = `${settings_1.settings.URL_TWILIO}/Content/${body.content_sid}/ApprovalRequests/whatsapp`;
             const approval = {
                 name: body.name,
-                category: body.category,
+                category: body.category.toUpperCase(),
             };
             const { status, data } = yield axios_1.default.post(url, approval, {
                 headers: { 'Content-Type': 'application/json' },
@@ -70,7 +119,7 @@ class TwilioService {
     }
     get_templates() {
         return __awaiter(this, void 0, void 0, function* () {
-            const url = `${settings_1.settings.URL_TWILIO}/Content`;
+            const url = `${settings_1.settings.URL_TWILIO}/ContentAndApprovals`;
             const { status, data } = yield axios_1.default.get(url, { auth });
             console.log(status, data);
             return data;

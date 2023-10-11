@@ -1,10 +1,30 @@
 import { NextFunction, Request, Response } from 'express'
 import { TwilioService } from './services'
 
+export async function create_text_template(req: Request, res: Response, next: NextFunction): Promise<void> {
+  const service = new TwilioService()
+  try {
+    const template = await service.create_text_template(req.body)
+    res.json(template)
+  } catch (error) {
+    next(error)
+  }
+}
+
 export async function create_media_template(req: Request, res: Response, next: NextFunction): Promise<void> {
   const service = new TwilioService()
   try {
     const template = await service.create_media_template(req.body)
+    res.json(template)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export async function create_list_picker_template(req: Request, res: Response, next: NextFunction): Promise<void> {
+  const service = new TwilioService()
+  try {
+    const template = await service.create_list_picker_template(req.body)
     res.json(template)
   } catch (error) {
     next(error)
