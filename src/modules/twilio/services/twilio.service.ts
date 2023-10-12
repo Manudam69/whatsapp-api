@@ -23,11 +23,19 @@ export type create_media_type = {
   media: string
 }
 
+export type create_quick_reply_type = {
+  name: string
+  language?: string
+  variables?: object
+  message: string
+  actions: { title: string; id: string }[]
+}
+
 export type create_list_picker_type = {
   name: string
   language?: string
   variables?: object
-  list_message: string
+  message: string
   label: string
   items: { item: string; description: string; id: string }[]
 }
@@ -98,12 +106,33 @@ export class TwilioService {
       variables: { ...body.variables },
       types: {
         'twilio/list-picker': {
-          body: body.list_message,
+          body: body.message,
           button: body.label,
           items: [...body.items],
         },
-        'twilio/text': {
-          body: 'Prueba de texto en lista!',
+      },
+    }
+
+    const { data, status } = await axios.post(url, template, {
+      headers: { 'Content-Type': 'application/json' },
+      auth,
+    })
+
+    console.log(status, data)
+
+    return data
+  }
+
+  async create_quick_reply(body: create_quick_reply_type) {
+    const url = `${settings.URL_TWILIO}/Content`
+    const template = {
+      friendly_name: body.name,
+      language: body.language ?? 'es_MX',
+      variables: { ...body.variables },
+      types: {
+        'twilio/quick-reply': {
+          body: body.message,
+          actions: [...body.actions],
         },
       },
     }

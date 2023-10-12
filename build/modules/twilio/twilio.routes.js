@@ -31,6 +31,7 @@ const router = (0, express_1.Router)();
 router.post('/create-text-template', [...twilio_validator_1.create_text_template_validator, validator_1.validateBody], Controller.create_text_template);
 router.post('/create-media-template', [...twilio_validator_1.create_media_template_validator, validator_1.validateBody], Controller.create_media_template);
 router.post('/create-list-picker-template', [...twilio_validator_1.create_list_picker_validator, validator_1.validateBody], Controller.create_list_picker_template);
+router.post('/create-quick-reply-template', [...twilio_validator_1.create_quick_reply_validator, validator_1.validateBody], Controller.create_quick_reply);
 router.get('/template/:content_sid', Controller.get_template);
 router.put('/send-to-approval', [...twilio_validator_1.send_to_approval_validator, validator_1.validateBody], Controller.send_template_to_approval);
 router.get('/templates', Controller.get_templates);

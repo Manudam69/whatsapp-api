@@ -3,6 +3,7 @@ import * as Controller from './twilio.controller'
 import {
   create_list_picker_validator,
   create_media_template_validator,
+  create_quick_reply_validator,
   create_text_template_validator,
   delete_template_validator,
   send_to_approval_validator,
@@ -22,6 +23,11 @@ router.post(
   '/create-list-picker-template',
   [...create_list_picker_validator, validateBody],
   Controller.create_list_picker_template
+)
+router.post(
+  '/create-quick-reply-template',
+  [...create_quick_reply_validator, validateBody],
+  Controller.create_quick_reply
 )
 router.get('/template/:content_sid', Controller.get_template)
 router.put('/send-to-approval', [...send_to_approval_validator, validateBody], Controller.send_template_to_approval)

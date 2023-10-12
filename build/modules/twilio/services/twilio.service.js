@@ -77,12 +77,32 @@ class TwilioService {
                 variables: Object.assign({}, body.variables),
                 types: {
                     'twilio/list-picker': {
-                        body: body.list_message,
+                        body: body.message,
                         button: body.label,
                         items: [...body.items],
                     },
-                    'twilio/text': {
-                        body: 'Prueba de texto en lista!',
+                },
+            };
+            const { data, status } = yield axios_1.default.post(url, template, {
+                headers: { 'Content-Type': 'application/json' },
+                auth,
+            });
+            console.log(status, data);
+            return data;
+        });
+    }
+    create_quick_reply(body) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            const url = `${settings_1.settings.URL_TWILIO}/Content`;
+            const template = {
+                friendly_name: body.name,
+                language: (_a = body.language) !== null && _a !== void 0 ? _a : 'es_MX',
+                variables: Object.assign({}, body.variables),
+                types: {
+                    'twilio/quick-reply': {
+                        body: body.message,
+                        actions: [...body.actions],
                     },
                 },
             };

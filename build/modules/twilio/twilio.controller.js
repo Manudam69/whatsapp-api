@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.delete_template = exports.use_template = exports.get_templates = exports.send_template_to_approval = exports.get_template = exports.create_list_picker_template = exports.create_media_template = exports.create_text_template = void 0;
+exports.delete_template = exports.use_template = exports.get_templates = exports.send_template_to_approval = exports.get_template = exports.create_quick_reply = exports.create_list_picker_template = exports.create_media_template = exports.create_text_template = void 0;
 const services_1 = require("./services");
 function create_text_template(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -50,6 +50,19 @@ function create_list_picker_template(req, res, next) {
     });
 }
 exports.create_list_picker_template = create_list_picker_template;
+function create_quick_reply(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const service = new services_1.TwilioService();
+        try {
+            const template = yield service.create_quick_reply(req.body);
+            res.json(template);
+        }
+        catch (error) {
+            next(error);
+        }
+    });
+}
+exports.create_quick_reply = create_quick_reply;
 function get_template(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         const service = new services_1.TwilioService();

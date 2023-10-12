@@ -31,6 +31,16 @@ export async function create_list_picker_template(req: Request, res: Response, n
   }
 }
 
+export async function create_quick_reply(req: Request, res: Response, next: NextFunction): Promise<void> {
+  const service = new TwilioService()
+  try {
+    const template = await service.create_quick_reply(req.body)
+    res.json(template)
+  } catch (error) {
+    next(error)
+  }
+}
+
 export async function get_template(req: Request, res: Response, next: NextFunction): Promise<void> {
   const service = new TwilioService()
   try {
