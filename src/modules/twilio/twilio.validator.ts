@@ -40,7 +40,9 @@ export const use_template_validator = [
     .withMessage('{content_sid} was expected')
     .isString()
     .withMessage('string type was expected'),
-  check('to').notEmpty().withMessage('{to} was expected').isString().withMessage('string type was expected'),
+  check('to').isArray().withMessage('Must be an array'),
+  check('to.*.number').isString().withMessage('Number must be a string'),
+  check('to.*.variables').optional().isObject().withMessage('Variables must be an object'),
 ]
 export const delete_template_validator = [
   query('content_sid')

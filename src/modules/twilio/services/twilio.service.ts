@@ -48,8 +48,7 @@ export type send_template_to_approval_type = {
 
 export type use_template_type = {
   content_sid: string
-  variables?: object
-  to: string
+  to: { number: string; variables?: object }[]
 }
 
 export class TwilioService {
@@ -180,12 +179,22 @@ export class TwilioService {
   }
 
   async use_template(body: use_template_type) {
+    const people = body.to
+    for (const person of people) {
+      await this.send_message(body, person.number, person.variables)
+    }
+
+    return true
+  }
+
+  private async send_message(body: use_template_type, number: string, variables?: object) {
     const message = await client.messages.create({
       contentSid: body.content_sid,
       from: settings.TWILIO_FROM,
-      contentVariables: JSON.stringify({ ...body.variables }),
-      to: `whatsapp:+${body.to}`,
+      contentVariables: JSON.stringify({ ...variables }),
+      to: `whatsapp:+${number}`,
     })
+
     console.log(message)
     return message
   }
