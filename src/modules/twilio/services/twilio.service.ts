@@ -180,11 +180,13 @@ export class TwilioService {
 
   async use_template(body: use_template_type) {
     const people = body.to
+    let mensajes = 0
     for (const person of people) {
       await this.send_message(body, person.number, person.variables)
+      mensajes++
     }
 
-    return true
+    return `${mensajes} mensajes enviados`
   }
 
   private async send_message(body: use_template_type, number: string, variables?: object) {
@@ -192,7 +194,7 @@ export class TwilioService {
       contentSid: body.content_sid,
       from: settings.TWILIO_FROM,
       contentVariables: JSON.stringify({ ...variables }),
-      to: `whatsapp:+${number}`,
+      to: `whatsapp:+52${number}`,
     })
 
     console.log(message)
